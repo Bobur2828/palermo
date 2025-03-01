@@ -6,14 +6,14 @@ from django.contrib.admin.sites import AlreadyRegistered
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.models import User, Group
-
+from unfold.admin import ModelAdmin
 
 admin.site.unregister(User)
 admin.site.unregister(Group)
 
 app_models = apps.get_models()
 print(app_models)
-exclude_models = ['Session', 'ContentType', 'Permission', 'Site','Group','User','LogEntry']
+exclude_models = ['Session', 'ContentType', 'Permission', 'Site', 'Group', 'User', 'LogEntry']
 
 # Ilovadagi barcha modellarni olish
 app_models = apps.get_models()
@@ -22,6 +22,8 @@ app_models = apps.get_models()
 for model in app_models:
     if model.__name__ not in exclude_models:
         try:
-            admin.site.register(model)
+            @admin.register(model)
+            class model(ModelAdmin):
+                list_display = ['id']
         except AlreadyRegistered:
             pass
