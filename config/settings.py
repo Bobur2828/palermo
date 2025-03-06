@@ -14,7 +14,7 @@ LOGGING_STATUS =True
 
 ALLOWED_HOSTS = ['*']
 
-DB = False   #True bo'lsa  PostgreSql False bo'lsa  Sqlite ni o'zlashtiradi
+DB = True  #True bo'lsa  PostgreSql False bo'lsa  Sqlite ni o'zlashtiradi
 
 UNFOLD = UNFOLD
 
@@ -90,15 +90,18 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # ======================================= DATABASE =======================================
+import os 
+
+
 if DB:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': '',
-            'USER': '',
-            'PASSWORD': '',
-            'HOST': 'localhost' if not DEBUG else 'IP adress serverniki',
-            'PORT': '5432',
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('POSTGRES_DB', 'mydatabase'),
+            'USER': os.environ.get('POSTGRES_USER', 'myuser'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'mypassword'),
+            'HOST': os.environ.get('POSTGRES_HOST', 'db'), 
+            'PORT': os.environ.get('POSTGRES_PORT', '5433'), 
         }
     }
 else:
