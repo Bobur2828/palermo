@@ -1,4 +1,4 @@
-from main.models.base import BaseHeader,BaseTitle
+from main.models.base import BaseHeader,BaseTitle,AutoTranslateMixin
 from main.models.homePG import HomePageHeader,HomePGAbout,HomePGOffers
 from main.models.aboutPG import *
 from main.models.ourContact import Contacts,OurData,OurSocial
