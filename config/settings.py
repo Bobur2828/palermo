@@ -2,13 +2,14 @@ import os
 from pathlib import Path
 from config.custom_config import UNFOLD,setup_logging
 # ======================================= BASE SETTINGS =======================================
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SITE_ID = 1
 
 SECRET_KEY = 'django-insecure-%cq-(md-*c872)6y31u!!k_ry6rp!+4a_ptd(l!5$rf)@n!k&+'
 
-DEBUG = True
+DEBUG = False
 
 LOGGING_STATUS =True
 
@@ -139,12 +140,18 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+
+
+
 # ======================================= STATIC & MEDIA =======================================
+
+
+
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # To'g'ri yo'l
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Bu to'g'ri
 
 # ======================================= DEFAULT SETTINGS =======================================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

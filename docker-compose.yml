@@ -1,10 +1,11 @@
+
 services:
   app:
     build: .
     volumes:
       - .:/app
     ports:
-      - "8001:8000"
+      - "8000:8000"
     environment:
       - POSTGRES_DB=palermo
       - POSTGRES_USER=palermo_user
@@ -15,12 +16,11 @@ services:
       - db
     command: >
       sh -c "python manage.py makemigrations &&
-            python manage.py migrate &&
-            echo \"from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='root').exists() or User.objects.create_superuser('root', 'root@example.com', '1')\" | python manage.py shell &&
-            python manage.py runserver 0.0.0.0:8000"
-
-
-
+             python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             chmod -R 755 /app/static &&
+             chmod -R 755 /app/media &&
+             gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3"
 
   db:
     image: postgres:15-alpine
@@ -35,5 +35,31 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+      - front
+    volumes:
+      - ./static:/app/static
+      - ./media:/app/media
+      - ./nginx.conf:/etc/nginx/nginx.conf
+  front:
+    build:
+      context: "../front/palermo/"
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - db
+      - app
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+
+
 volumes:
   postgres_data:
+
