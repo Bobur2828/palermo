@@ -2,27 +2,21 @@ from django.contrib import admin
 from django.db import models
 from unfold.admin import ModelAdmin
 from django.apps import apps
-from django.contrib.admin.sites import AlreadyRegistered
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.models import User, Group
-from unfold.admin import ModelAdmin
+from django.utils.html import format_html
+
+from main import models
+from django.contrib.sites.models import Site
 
 admin.site.unregister(User)
 admin.site.unregister(Group)
+admin.site.unregister(Site)
 
-app_models = apps.get_models()
-exclude_models = ['Session', 'ContentType', 'Permission', 'Site', 'Group', 'User', 'LogEntry']
 
-# Ilovadagi barcha modellarni olish
-app_models = apps.get_models()
 
-# Har bir modelni admin panelga qo'shish
-for model in app_models:
-    if model.__name__ not in exclude_models:
-        try:
-            @admin.register(model)
-            class model(ModelAdmin):
-                list_display = ['id']
-        except AlreadyRegistered:
-            pass
+@admin.register(models.HomePG)
+class BotClientAdmin(ModelAdmin):
+    list_display = (
+        'title_ru', 
+
+    )

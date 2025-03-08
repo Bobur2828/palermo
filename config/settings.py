@@ -2,14 +2,14 @@ import os
 from pathlib import Path
 from config.custom_config import UNFOLD,setup_logging
 # ======================================= BASE SETTINGS =======================================
-# BASE_DIR = Path(__file__).resolve().parent.parent
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SITE_ID = 1
 
 SECRET_KEY = 'django-insecure-%cq-(md-*c872)6y31u!!k_ry6rp!+4a_ptd(l!5$rf)@n!k&+'
 
-DEBUG = False
+DEBUG = True
 
 LOGGING_STATUS =True
 
@@ -97,12 +97,18 @@ import os
 if DB:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('POSTGRES_DB', 'mydatabase'),
-            'USER': os.environ.get('POSTGRES_USER', 'myuser'),
-            'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'mypassword'),
-            'HOST': os.environ.get('POSTGRES_HOST', 'db'), 
-            'PORT': os.environ.get('POSTGRES_PORT', '5433'), 
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'palermo',
+            'USER': 'palermouser',
+            'PASSWORD': 'palermo1',
+            # 'HOST': 'localhost' if not DEBUG else os.getenv("DB_HOST"),
+            # 'HOST': '167.99.126.7',
+            'HOST': 'localhost',
+            # 'HOST': '46.101.127.46',
+
+
+
+            'PORT': '5432',
         }
     }
 else:

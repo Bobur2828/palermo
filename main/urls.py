@@ -1,8 +1,6 @@
 from django.urls import path
-from main.views.homePG import HomePGView
-from main.views.aboutPG import AboutPGView
+from main import views
 urlpatterns = [
-    path('home/<str:lang>/',HomePGView.as_view()),
-    path('about/<str:lang>/', AboutPGView.as_view()),
+    path('home/<str:lang>/',views.HomeHeaderAPIView.as_view()),
 
 ]
